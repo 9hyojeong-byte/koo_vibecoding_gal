@@ -86,7 +86,7 @@ const App: React.FC = () => {
 
       <footer className="bg-black/20 border-t-2 border-black py-6">
         <div className="container mx-auto px-4 text-center text-[#4CF190] text-sm font-mono opacity-60">
-          &copy; {new Date().getFullYear()} ARCADE_GALLERY_V1 // AUTHORIZED_ACCESS_ONLY
+          &copy; {new Date().getFullYear()} KOO_GALLERY_V1 // AUTHORIZED_ACCESS_ONLY
         </div>
       </footer>
 

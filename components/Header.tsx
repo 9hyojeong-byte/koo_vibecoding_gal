@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick }) => {
             <h1 className="text-2xl font-bold text-white tracking-widest hidden sm:block uppercase italic">
               Koo VibeCoding Arcade
             </h1>
-            <span className="text-[#4CF190] text-xs font-mono hidden sm:block tracking-tighter">EST. 2024 // SYSTEM ACTIVE</span>
+            <span className="text-[#4CF190] text-xs font-mono hidden sm:block tracking-tighter">EST. 2026 // SYSTEM ACTIVE</span>
           </div>
         </div>
 
