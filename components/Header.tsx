@@ -7,7 +7,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onRegisterClick }) => {
   return (
-    <header className="bg-[#441DBF] border-b-4 border-black sticky top-0 z-40 py-2">
+    <header className="bg-[#441DBF] border-b-4 border-black sticky top-0 z-[120] py-2">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 bg-[#0000BF] border-2 border-black rounded-sm flex items-center justify-center shadow-[4px_4px_0px_0px_#000000]">

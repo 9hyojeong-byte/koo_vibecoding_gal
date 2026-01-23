@@ -56,8 +56,8 @@ const App: React.FC = () => {
     setSelectedApp(null);
   };
 
-  // Author가 '구효정'인 데이터만 필터링
-  const filteredApps = apps.filter(app => app.author === '구효정');
+  // Author가 '구효정' 또는 '쿠효정'인 데이터만 필터링
+  const filteredApps = apps.filter(app => app.author === '구효정' || app.author === '쿠효정');
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-x-hidden">

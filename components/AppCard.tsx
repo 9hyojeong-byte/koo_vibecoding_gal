@@ -51,16 +51,17 @@ const AppCard: React.FC<AppCardProps> = ({ app, onRefresh, onOpenDetails }) => {
 
   return (
     <div className="terminal-screen overflow-hidden group flex flex-col h-full shadow-[8px_8px_0px_0px_#000000]">
+      {/* Image area: elevated z-index to stay clear of scanlines (body::before is z-100) */}
       <div 
-        className="relative aspect-video overflow-hidden border-b-2 border-black cursor-pointer"
+        className="relative aspect-video overflow-hidden border-b-2 border-black cursor-pointer z-[110]"
         onClick={onOpenDetails}
       >
         <img 
           src={thumbnail} 
           alt={app.name} 
-          className="w-full h-full object-cover filter brightness-75 contrast-125 group-hover:brightness-100 transition-all"
+          className="w-full h-full object-cover filter brightness-90 group-hover:brightness-100 transition-all"
         />
-        <div className="absolute top-2 left-2 bg-[#AA0C00] text-white text-[10px] px-2 py-0.5 border border-black uppercase font-bold">
+        <div className="absolute top-2 left-2 bg-[#AA0C00] text-white text-[10px] px-2 py-0.5 border border-black uppercase font-bold z-20">
           LIVE FEED
         </div>
       </div>

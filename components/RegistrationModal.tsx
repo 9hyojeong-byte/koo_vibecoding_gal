@@ -97,7 +97,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose, onSucces
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
       <div className="bg-[#6839FF] border-4 border-black shadow-[15px_15px_0px_0px_#441DBF] w-full max-w-2xl my-8 overflow-hidden">
         <div className="px-8 py-4 bg-[#441DBF] border-b-4 border-black flex items-center justify-between text-[#4CF190]">
           <h2 className="text-3xl font-bold uppercase tracking-widest italic">Register New Object</h2>

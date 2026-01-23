@@ -22,7 +22,7 @@
             font-size: 20px;
             overflow-x: hidden;
         }
-        /* Scanlines Effect Overlay */
+        /* Scanlines Effect Overlay - Always at z-100 */
         body::before {
             content: " ";
             display: block;
@@ -54,6 +54,17 @@
             border: 2px solid var(--pure-black);
             color: var(--neon-green);
             border-radius: 4px;
+        }
+        /* Custom scrollbar for retro look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--deep-blue);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border: 1px solid var(--pure-black);
         }
     </style>
 <script type="importmap">

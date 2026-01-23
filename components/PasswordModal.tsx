@@ -49,7 +49,7 @@ const PasswordModal: React.FC<PasswordModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[220] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
       <div className="bg-[#441DBF] border-4 border-black shadow-[10px_10px_0px_0px_#000000] w-full max-w-sm overflow-hidden p-8">
         <div className="flex flex-col items-center text-center space-y-6">
           <div className="w-16 h-16 bg-[#AA0C00] border-4 border-black text-white flex items-center justify-center shadow-[4px_4px_0px_0px_#000000]">
