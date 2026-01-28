@@ -3,7 +3,7 @@
   "name": "Koo VibeCoding Arcade",
   "short_name": "Koo Arcade",
   "description": "쿠효정 웹앱 갤러리",
-  "start_url": "./",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#6839FF",
   "theme_color": "#441DBF",
