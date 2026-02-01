@@ -9,19 +9,20 @@
   "theme_color": "#441DBF",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/128/528/528111.png",
+      "src": "https://raw.githubusercontent.com/9hyojeong-byte/files/refs/heads/main/icons/icon_toto_margin.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/128/528/528111.png",
+      "src": "https://raw.githubusercontent.com/9hyojeong-byte/files/refs/heads/main/icons/icon_toto_margin.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/128/528/528111.png",
+      "src": "https://raw.githubusercontent.com/9hyojeong-byte/files/refs/heads/main/icons/icon_toto_margin.png",
       "sizes": "512x512",
       "type": "image/png"
+      "purpose": "any maskable"
     }
   ]
 }
