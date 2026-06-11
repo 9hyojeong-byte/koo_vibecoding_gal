@@ -16,6 +16,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose, onSucces
     password: ''
   });
   const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState('');
 
@@ -24,23 +25,68 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose, onSucces
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const selectedFiles = Array.from(e.target.files).slice(0, 3);
-      setFiles(selectedFiles);
-    }
-  };
-
-  const fileToBase64 = (file: File): Promise<string> => {
+  const resizeAndCompressImage = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => {
-        const result = reader.result as string;
-        resolve(result.split(',')[1]); 
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          
+          // Max dimension 600px for efficient Sheets storage and preview speeds
+          const MAX_WIDTH = 600;
+          const MAX_HEIGHT = 600;
+          
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            // Use quality 0.65 JPEG format for excellent look & highly optimized size
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.65);
+            resolve(compressedBase64);
+          } else {
+            resolve(event.target?.result as string);
+          }
+        };
+        img.onerror = (err) => reject(err);
       };
-      reader.onerror = error => reject(error);
+      reader.onerror = (err) => reject(err);
     });
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedFiles = Array.from(e.target.files).slice(0, 3);
+      setFiles(selectedFiles);
+      setPreviews([]);
+      
+      try {
+        const base64Previews = await Promise.all(
+          selectedFiles.map(file => resizeAndCompressImage(file))
+        );
+        setPreviews(base64Previews);
+      } catch (err) {
+        console.error("Preview/compression error:", err);
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,11 +103,17 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose, onSucces
 
     try {
       const imagePayloads = await Promise.all(
-        files.map(async (file) => ({
-          base64: await fileToBase64(file),
-          name: file.name,
-          type: file.type
-        }))
+        files.map(async (file, idx) => {
+          // Use previously generated compressed preview if available, or generate it
+          const dataUrl = previews[idx] || await resizeAndCompressImage(file);
+          const base64Data = dataUrl.split(',')[1];
+          return {
+            base64DataUrl: dataUrl,
+            base64: base64Data,
+            name: file.name,
+            type: 'image/jpeg'
+          };
+        })
       );
 
       setProgress('UPLOADING...');
@@ -181,9 +233,21 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose, onSucces
                 </div>
                 <p className="text-xs text-[#B6F9D7] uppercase tracking-tighter italic">Max 3 Slots Available</p>
                 {files.length > 0 && (
-                  <div className="mt-2 text-left">
+                  <div className="mt-2 text-left space-y-1">
                     {files.map((f, i) => (
-                      <p key={i} className="text-sm font-bold text-[#4CF190]">[{i+1}] {f.name.slice(0, 20)}...</p>
+                      <p key={i} className="text-xs font-bold text-[#4CF190]">[{i+1}] {f.name.slice(0, 25)}...</p>
+                    ))}
+                  </div>
+                )}
+                {previews.length > 0 && (
+                  <div className="mt-4 grid grid-cols-3 gap-3 animate-in fade-in duration-200">
+                    {previews.map((preview, i) => (
+                      <div key={i} className="relative aspect-video border-2 border-black bg-black overflow-hidden select-none">
+                        <img src={preview} alt={`preview-${i}`} className="w-full h-full object-cover" />
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/80 text-[9px] text-[#4CF190] text-center font-sans tracking-tight truncate px-1 py-0.5 border-t border-black">
+                          {files[i]?.name.slice(0, 12)}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}

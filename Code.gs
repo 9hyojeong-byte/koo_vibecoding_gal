@@ -90,20 +90,18 @@ function registerApp(data) {
   const imageUrls = [];
   if (data.images && data.images.length > 0) {
     try {
-      const folder = DriveApp.getFolderById(FOLDER_ID);
       data.images.forEach((img, index) => {
-        const fileName = `${id}_${index}_${img.name}`;
-        const blob = Utilities.newBlob(Utilities.base64Decode(img.base64), img.type, fileName);
-        const file = folder.createFile(blob);
-        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-        
-        // Direct View Link (lh3.googleusercontent.com 구조가 가장 안정적)
-        const fileId = file.getId();
-        const directUrl = `https://lh3.googleusercontent.com/d/${fileId}=s1600`;
-        imageUrls.push(directUrl);
+        // If modern base64 Data URL is provided, store it directly for absolute robust performance
+        if (img.base64DataUrl) {
+          imageUrls.push(img.base64DataUrl);
+        } else if (img.base64) {
+          // If only raw base64 is provided, construct the base64 Data URL
+          imageUrls.push("data:" + (img.type || "image/jpeg") + ";base64," + img.base64);
+        }
       });
     } catch (e) {
-      return { success: false, message: '이미지 업로드 실패: ' + e.toString() };
+      // Emergency fallback to empty array
+      Logger.log("Image parsing error: " + e.toString());
     }
   }
   
